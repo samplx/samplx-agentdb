@@ -1,0 +1,34 @@
+{
+  "name": "samplx-agentdb",
+  "version": "0.3.0-alpha1",
+  "description": "User-agent database.",
+  "homepage": "http://samplx.org/samplx-agentdb",
+  "author": {
+    "name": "Jim Burlingame"
+  },
+  "contributors": [
+    {
+      "name": "Jim Burlingame",
+      "email": "jb@samplx.org"
+    }
+  ],
+  "main": "./lib/samplx-agentdb",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samplx/samplx-agentdb.git"
+  },
+  "license": {
+    "type": "Apache 2.0",
+    "url": "https://github.com/samplx/samplx-agentdb/blob/master/LICENSE"
+  },
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/samplx/samplx-agentdb/issues"
+  }
+}
