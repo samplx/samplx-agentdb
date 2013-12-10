@@ -1,6 +1,6 @@
 {
   "name": "samplx-agentdb",
-  "version": "0.3.0-alpha1",
+  "version": "0.3.0-beta",
   "description": "User-agent database.",
   "homepage": "http://samplx.org/samplx-agentdb",
   "author": {
@@ -22,10 +22,13 @@
     "url": "https://github.com/samplx/samplx-agentdb/blob/master/LICENSE"
   },
   "scripts": {
+        "prepublish": "node prepublish.js",
+        "test" : "node run-tests.js"
   },
   "dependencies": {
   },
   "devDependencies": {
+        "buster": "~ 0.7.7"
   },
   "readmeFilename": "README.md",
   "bugs": {
