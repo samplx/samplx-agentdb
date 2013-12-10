@@ -90,6 +90,13 @@ buster.testCase("agentdb", {
                 refute(found);
             }
         },
+        
+        "find Wget/1.0" : function () {
+            var r = agentdb.lookupPattern('Wget/1.0');
+            assert.isObject(r);
+            assert.equals(r.group, 'Download');
+            assert.equals(r.source, 'gnu.org');
+        },
     },
     
     "lookup" : {
