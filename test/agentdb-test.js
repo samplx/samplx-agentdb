@@ -25,9 +25,9 @@ var buster = require("buster");
 var assert = buster.assert;
 var refute = buster.refute;
 var agentdb = require("../lib/samplx-agentdb.js");
-var agents = require("./agents.json");
-var groups = require("./groups.json");
-var sources = require("./sources.json");
+var agents = require("../data/agents.json");
+var groups = require("../data/groups.json");
+var sources = require("../data/sources.json");
 
 buster.testCase("agentdb", {
     setUp: function () {
@@ -52,6 +52,20 @@ buster.testCase("agentdb", {
             assert.same(r, null);
         },
 
+        "non-string returns null": function () {
+            var r = agentdb.lookupHash(12);
+            assert.same(r, null);
+            r = agentdb.lookupHash(undefined);
+            assert.same(r, null);
+            r = agentdb.lookupHash(null);
+            assert.same(r, null);
+        },
+        
+        "empty string returns null": function () {
+            var r = agentdb.lookupHash('');
+            assert.same(r, null);
+        },
+        
         "finds agents with status < 2": function () {
             agents.forEach(function (agent) {
                 if (agent.status < 2) {
@@ -72,6 +86,20 @@ buster.testCase("agentdb", {
             assert.same(r, null);
         },
 
+        "non-string returns null": function () {
+            var r = agentdb.lookupPattern(12);
+            assert.same(r, null);
+            r = agentdb.lookupPattern(undefined);
+            assert.same(r, null);
+            r = agentdb.lookupPattern(null);
+            assert.same(r, null);
+        },
+        
+        "empty string returns null": function () {
+            var r = agentdb.lookupPattern('');
+            assert.same(r, null);
+        },
+        
         "finds agents with status == 2": function () {
             var found = false;
             agents.forEach(function (agent) {
@@ -97,6 +125,14 @@ buster.testCase("agentdb", {
             assert.equals(r.group, 'Download');
             assert.equals(r.source, 'gnu.org');
         },
+        
+        "find Opera": function () {
+            var r = agentdb.lookupPattern('Opera/9.80 (Windows NT 6.1; U; ru) Presto/2.8.131 Version/11.10');
+            assert.isObject(r);
+            assert.equals(r.group, 'Browser');
+            assert.equals(r.source, 'Opera');
+        },
+        
     },
     
     "lookup" : {
@@ -106,7 +142,29 @@ buster.testCase("agentdb", {
             assert.equals(r.group, "Unknown");
             assert.equals(r.source, "Unknown");
         },
+
+        "returns None on empty string": function () {
+            var r = agentdb.lookup('');
+            assert.isObject(r);
+            assert.equals(r.group, "None");
+            assert.equals(r.source, "None");
+        },
         
+        "returns None on non-string": function () {
+            var r = agentdb.lookup(undefined);
+            assert.isObject(r);
+            assert.equals(r.group, "None");
+            assert.equals(r.source, "None");
+            r = agentdb.lookup(null);
+            assert.isObject(r);
+            assert.equals(r.group, "None");
+            assert.equals(r.source, "None");
+            r = agentdb.lookup(42);
+            assert.isObject(r);
+            assert.equals(r.group, "None");
+            assert.equals(r.source, "None");
+        },
+                
         "finds known agents" : function () {
             agents.forEach(function (agent) {
                 if (agent.status < 3) {
