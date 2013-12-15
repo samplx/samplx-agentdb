@@ -15,5 +15,5 @@ npm-debug.log
 
 node_modules
 
-test/*.json
+data/*.json
 lib/database-min.js
