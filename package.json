@@ -1,6 +1,6 @@
 {
   "name": "samplx-agentdb",
-  "version": "0.3.0-beta3",
+  "version": "0.3.0",
   "description": "User-agent database.",
   "homepage": "http://samplx.org/samplx-agentdb",
   "author": {
