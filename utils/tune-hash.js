@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 fileencoding=utf-8 : */
 /*
- *     Copyright 2013 James Burlingame
+ *     Copyright 2013, 2014 James Burlingame
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -39,8 +39,8 @@ var verbose = false;
  *
  *  @param limit
  */
-function sieve(limit) {
-    var sieve = Array(limit);
+function getPrimes(limit) {
+    var sieve = new Array(limit);
     var n, j, k;
     var last = Math.floor(Math.sqrt(limit));
     for (n=2; n < limit; n++) {
@@ -50,7 +50,7 @@ function sieve(limit) {
         for (j= n+n; j < limit; j += n) {
             sieve[j] = false;
         }
-        for (var j=1; j < last; j++) {
+        for (j=1; j < last; j++) {
             k = n+j;
             if (sieve[k]) {
                 n = k;
@@ -141,8 +141,9 @@ function varySize(low, high, seed, multiplier, primes) {
 
 function varySeed(low, high, size, multiplier) {
     var bestSeed, bestDepth;
+    var history;
     for (var seed= low; seed <= high; seed++) {
-        var history = fill(size, seed, multiplier);
+        history = fill(size, seed, multiplier);
         var depth = getDepth(history);
         if (verbose) {
             dumpHistory(history, size, depth);
@@ -153,15 +154,16 @@ function varySeed(low, high, size, multiplier) {
         }
     }
     console.log("Best { size: " + size + ", seed: " + bestSeed + ", multiplier: " + multiplier + " }");
-    var history = fill(size, bestSeed, multiplier);
+    history = fill(size, bestSeed, multiplier);
     dumpHistory(history, size, bestDepth);
     return bestSeed;
 }
 
 function varyMultiplier(low, high, size, seed) {
     var bestMult, bestDepth;
+    var history;
     for (var m= low; m <= high; m++) {
-        var history = fill(size, seed, m);
+        history = fill(size, seed, m);
         var depth = getDepth(history);
         if (verbose) {
             dumpHistory(history, size, depth);
@@ -172,7 +174,7 @@ function varyMultiplier(low, high, size, seed) {
         }
     }
     console.log("Best { size: " + size + ", seed: " + seed + ", multiplier: " + bestMult + " }");
-    var history = fill(size, seed, bestMult);
+    history = fill(size, seed, bestMult);
     dumpHistory(history, size, bestDepth);
     return bestMult;
 }
@@ -181,9 +183,9 @@ function varyMultiplier(low, high, size, seed) {
  *  tune-hash table main function.
  */
 function main() {
-    verbose && console.log("Finding primes to " + UPPER);
-    var primes = sieve(UPPER);
-    verbose && console.log("Done.");
+    if (verbose) { console.log("Finding primes to " + UPPER); }
+    var primes = getPrimes(UPPER);
+    if (verbose) { console.log("Done."); }
     
     var bestSize = varySize(LOWER, UPPER, 5381, 33, primes);
     var bestSeed = varySeed(0, 8192, bestSize, 33);

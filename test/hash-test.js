@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 fileencoding=utf-8 : */
 /*
- *     Copyright 2013 James Burlingame
+ *     Copyright 2013, 2014 James Burlingame
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -79,7 +79,7 @@ buster.testCase("hash", {
             
             var r;
             for (n = 0; n < this.agents.length; n++) {
-                r = this.h.lookup(this.agents[n]["agent"], "agent");
+                r = this.h.lookup(this.agents[n].agent, "agent");
                 assert.same(r, this.agents[n]);
             }
         },

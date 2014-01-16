@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 fileencoding=utf-8 : */
 /*
- *     Copyright 2013 James Burlingame
+ *     Copyright 2013, 2014 James Burlingame
  *
  *     Licensed under the Apache License, Version 2.0 (the "License");
  *     you may not use this file except in compliance with the License.
@@ -110,7 +110,7 @@ function updateAgent(id, group, source, status) {
 function main() {
     agents.forEach(function (agent) {
         var r = agentdb.lookupPattern(agent.agent);
-        if (r != null) {
+        if (r !== null) {
             if (agent.groupId == 1) {   // Unknown group -> update agent
                 updateAgent(agent.id, r.group, r.source, 2);
             } else if (agent.status != 1) {
@@ -131,16 +131,16 @@ function main() {
             }
         } else {
             r = agentdb.lookupHash(agent.agent);
-            if (r != null) {
+            if (r !== null) {
                 if ((r.group != agent.group) || (r.source != agent.source)) {
-                    debug && console.error("ERROR: lookup did not match: " + agent.agent);
-                    debug && console.error("  lookup.group=" + r.group+", expected="+agent.group+", lookup.source=" + r.source + ", expected="+agent.source);
+                    if (debug) { console.error("ERROR: lookup did not match: " + agent.agent); }
+                    if (debug) { console.error("  lookup.group=" + r.group+", expected="+agent.group+", lookup.source=" + r.source + ", expected="+agent.source); }
                 } else if ((agent.status != 1) && (agent.status != 3)) {
                     updateStatus(agent.id, 1);
                 }
             } else {
                 if ((agent.status < 3) && ((agent.group != "Unknown") || (agent.source != "Unknown"))) {
-                    debug && console.error("ERROR: missing:" + agent.agent);
+                    if (debug) { console.error("ERROR: missing:" + agent.agent); }
                     notfound.push(agent);
                 }
             }
